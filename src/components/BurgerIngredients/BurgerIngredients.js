@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {Tab, Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+
 
 import ingredientPropType from '../../utils/prop-types.js';
 import styles from './BurgerIngredients.module.css';
 
-export default function BurgerIngredients({ ingredients, ingredientClick }) {
+export default function BurgerIngredients(ingredients) {
   const [current, setCurrent] = useState('buns');
+  const [ingredientsDetails, setIngredientsDetails] = useState(false);
+  const [currentIngredient, setCurrentIngredient] = useState({});
+
+  const handleIngredientClick = (item) => {
+    setCurrentIngredient(item);
+    setIngredientsDetails(true);
+  };
+
+  const closePopup = () => {
+    setIngredientsDetails(false);
+  };
+
   return (
     <>
       <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 ml-5`}>
@@ -28,12 +43,11 @@ export default function BurgerIngredients({ ingredients, ingredientClick }) {
 
         <div className={styles.ingredients}>
           <h2 className='text text_type_main-medium'>Булки</h2>
-
           <div className={`${styles.ingredient} mt-6`}>
             {ingredients
               .filter((item) => item.type === 'bun')
               .map((item) => (
-                <div className={`${styles.card} mr-6 mb-6`} key={item._id} onClick={() => ingredientClick(item)}>
+                <div className={`${styles.card} mr-6 mb-6`} key={item._id} onClick={() => handleIngredientClick(item)}>
                   <Counter count={1} size='default'/>
                   <img className='image' src={item.image} alt='buns'/>
                   <div className={`${styles.price} text text_type_digits-default pt-1 pb-1 `}>
@@ -91,6 +105,11 @@ export default function BurgerIngredients({ ingredients, ingredientClick }) {
           </div>
         </div>
       </section>
+      {ingredientsDetails && (
+        <Modal title='Детали ингредиента' onRequestClose={closePopup} keyDown={closePopup}>
+          <IngredientDetails item={currentIngredient} />
+        </Modal>
+      )}
     </>
   );
 }
