@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
@@ -9,6 +9,7 @@ import styles from './BurgerConstructor.module.css';
 
 export default function BurgerConstructor(ingredients) {
   const [orderDetails, setOrderDetails] = useState(false);
+  const data = ingredients.ingredients
   const handleOrderClick = () => {
     setOrderDetails(true);
   };
@@ -20,7 +21,7 @@ export default function BurgerConstructor(ingredients) {
     <>
       <section className={` ${styles.constructor} pr-5 `}>
         <div className={`${styles.topBun}`}>
-          {ingredients
+          {data
             .filter((data) => data.name === 'Краторная булка N-200i')
             .map((data) => (
               <ConstructorElement
@@ -34,7 +35,7 @@ export default function BurgerConstructor(ingredients) {
             ))}
         </div>
         <ul className={`${styles.ingredients} mb-5`}>
-          {ingredients
+          {data
             .filter((data) => data.type !== 'bun')
             .map((data) => (
               <li className={`${styles.ingredient} `} key={data._id}>
@@ -48,7 +49,7 @@ export default function BurgerConstructor(ingredients) {
             ))}
         </ul>
         <div className={`${styles.bottonBun}`}>
-          {ingredients
+          {data
             .filter((data) => data.name === 'Краторная булка N-200i')
             .map((data) => (
               <ConstructorElement
@@ -85,5 +86,4 @@ export default function BurgerConstructor(ingredients) {
 
 BurgerConstructor.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  onRequestOpen: PropTypes.func.isRequired,
 };

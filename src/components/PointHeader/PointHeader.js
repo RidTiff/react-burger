@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { isPropertySignature } from 'typescript';
 import styles from './PointHeader.module.css';
-import obnull from '../obnull.module.css'
 
 export default function PointHeader(props) {
     return (
