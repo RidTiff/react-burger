@@ -10,7 +10,6 @@ import { api, getResponseData } from '../../utils/api.js';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
-
   
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export default function App() {
     <>
       <AppHeader />
       <Main>
-        <BurgerIngredients ingredients={ingredients}/>
+        <BurgerIngredients ingredients = {ingredients}/>
         <BurgerConstructor ingredients={ingredients}/>
       </Main>
     </>

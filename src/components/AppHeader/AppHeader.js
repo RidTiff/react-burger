@@ -3,14 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { isPropertySignature } from 'typescript';
 import styles from './AppHeader.module.css';
-import obnull from '../obnull.module.css'
 import PointHeader from '../PointHeader/PointHeader';
 
 export default function AppHeader() {
     return (
         <header className={styles.header}>
             <nav className={styles.nav}>
-                <ul className={`${styles.navUl} ${obnull.obnull}`}>
+                <ul className={styles.navUl}>
                     <li className={`${styles.constructor} mr-2`}>
                         <PointHeader text='Конструктор'>
                             <BurgerIcon type='primary'/>
