@@ -17,12 +17,14 @@ export default function BurgerConstructor(ingredients) {
   const closePopup = () => {
     setOrderDetails(false);
   };
+
+  const bun = useMemo(() => ingredients.find((ingredient) => ingredient.type === "bun"), [ingredients]);
+
   return (
     <>
       <section className={` ${styles.constructor} pr-5 `}>
         <div className={`${styles.topBun}`}>
-          {data
-            .filter((data) => data.name === 'Краторная булка N-200i')
+          {bun
             .map((data) => (
               <ConstructorElement
                 type='top'
@@ -49,8 +51,7 @@ export default function BurgerConstructor(ingredients) {
             ))}
         </ul>
         <div className={`${styles.bottonBun}`}>
-          {data
-            .filter((data) => data.name === 'Краторная булка N-200i')
+          {bun
             .map((data) => (
               <ConstructorElement
                 type='bottom'
