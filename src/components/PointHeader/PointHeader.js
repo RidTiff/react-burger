@@ -5,11 +5,11 @@ import styles from './PointHeader.module.css';
 
 export default function PointHeader(props) {
     return (
-        <div className={`${styles.point} p-5 ${props.className}`}>
+        <a href='#' className={`${styles.point} p-5 ${props.className}`}>
             {props.children}
             <p className={`ml-2 text text_type_main-default`}>
                 {props.text}
             </p>
-        </div>
+        </a>
     )
 }
