@@ -24,10 +24,11 @@ export default function BurgerConstructor(ingredients) {
           return ingredient.name === 'Краторная булка N-200i'
         }
       ), 
-    [data]
+    [ingredients]
   );
 
-  return (
+  if (data.length != 0) {
+    return (
     <>
       <section className={` ${styles.constructor} pr-5 `}>
         <div className={`${styles.topBun}`}>
@@ -83,7 +84,7 @@ export default function BurgerConstructor(ingredients) {
         </Modal>
       )}
     </>
-  );
+  );}
 }
 
 BurgerConstructor.propTypes = {

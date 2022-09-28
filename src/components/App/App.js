@@ -7,10 +7,9 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 import { api, getResponseData } from '../../utils/api.js';
-import { data } from '../../utils/data';
 
 export default function App() {
-  const [ingredients, setIngredients] = useState(data);
+  const [ingredients, setIngredients] = useState([]);
   
 
   useEffect(() => {
