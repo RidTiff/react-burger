@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
@@ -18,23 +18,27 @@ export default function BurgerConstructor(ingredients) {
     setOrderDetails(false);
   };
 
-  const bun = useMemo(() => ingredients.find((ingredient) => ingredient.type === "bun"), [ingredients]);
+  const bun = useMemo(
+    () => 
+      data.find((ingredient) => {
+          return ingredient.name === 'Краторная булка N-200i'
+        }
+      ), 
+    [data]
+  );
 
   return (
     <>
       <section className={` ${styles.constructor} pr-5 `}>
         <div className={`${styles.topBun}`}>
-          {bun
-            .map((data) => (
-              <ConstructorElement
-                type='top'
-                isLocked={true}
-                text={`${data.name} (верх)`}
-                price={data.price}
-                thumbnail={data.image}
-                key={data._id}
-              />
-            ))}
+          <ConstructorElement
+              type='top'
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+              key={bun._id}
+          />
         </div>
         <ul className={`${styles.ingredients} mb-5`}>
           {data
@@ -51,17 +55,14 @@ export default function BurgerConstructor(ingredients) {
             ))}
         </ul>
         <div className={`${styles.bottonBun}`}>
-          {bun
-            .map((data) => (
-              <ConstructorElement
-                type='bottom'
-                isLocked={true}
-                text={`${data.name} (низ)`}
-                price={data.price}
-                thumbnail={data.image}
-                key={data._id}
-              />
-            ))}
+          <ConstructorElement
+              type='bottom'
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+              key={bun._id}
+          />
         </div>
 
         <div className={`${styles.order}  mr-5`}>
