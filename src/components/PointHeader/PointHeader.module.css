@@ -1,0 +1,10 @@
+.point {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+}
