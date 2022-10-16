@@ -1,12 +1,17 @@
 import styles from './IngredientDetails.module.css';
-import ingredientPropType from '../../utils/prop-types.js';
+import { useSelector } from 'react-redux';
 
-export default function IngredientDetails({ item }) {
+
+export default function IngredientDetails() {
+
+  const { currentIngredient } = useSelector(store => store.currentIngredient);
+  const { image_large, name, calories, proteins, fat, carbohydrates } = currentIngredient;
+
   return (
     <section className={` ${styles.section} pt-10 pb-15 pl-10 pr-10`}>
-      <img className='pb-4 pt-10' src={item.image_large} />
+      <img className='pb-4 pt-10' src={image_large} />
       <p className={` ${styles.name} text text_type_main-medium pb-8`}>
-        {item.name}
+        {name}
       </p>
       <ul className={`${styles.details} `}>
         <li className={`${styles.item} mr-5`}>
@@ -14,7 +19,7 @@ export default function IngredientDetails({ item }) {
             Каллории,ккал
           </p>
           <span className='text text_type_digits-default text_color_inactive'>
-            {item.calories}
+            {calories}
           </span>
         </li>
         <li className={`${styles.item}`}>
@@ -22,7 +27,7 @@ export default function IngredientDetails({ item }) {
             Белки,г
           </p>
           <span className='text text_type_digits-default text_color_inactive'>
-            {item.proteins}
+            {proteins}
           </span>
         </li>
         <li className={`${styles.item}`}>
@@ -30,7 +35,7 @@ export default function IngredientDetails({ item }) {
             Жиры,г
           </p>
           <span className='text text_type_digits-default text_color_inactive'>
-            {item.fat}
+            {fat}
           </span>
         </li>
         <li className={`${styles.item}`}>
@@ -38,14 +43,10 @@ export default function IngredientDetails({ item }) {
             Углеводы,г
           </p>
           <span className='text text_type_digits-default text_color_inactive'>
-            {item.carbohydrates}
+            {carbohydrates}
           </span>
         </li>
       </ul>
     </section>
   );
 }
-
-IngredientDetails.propTypes = {
-  item: ingredientPropType.isRequired,
-};

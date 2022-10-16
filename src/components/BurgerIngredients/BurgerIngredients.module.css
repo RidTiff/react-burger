@@ -1,51 +1,49 @@
-.title {
-  grid-column: 1/3;
-}
-
-.section {
+.main {
   display: flex;
   flex-direction: column;
 }
 
-.tabs {
+.tab {
+  display: flex;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: content-box;
+}
+
+.menuItems {
+  list-style: none; 
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 24px;
 }
 
-.ingredients {
-  height: calc(100vh - 320px);
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.ingredients::-webkit-scrollbar {
-  width: 8px;
-}
-
-.ingredients::-webkit-scrollbar-track {
-  background-color: #2f2f37;
-}
-
-.ingredients::-webkit-scrollbar-thumb {
-  background-color: #8585ad;
-}
-
-.ingredient {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
 
 .card {
-  position: relative;
+  list-style: none;
+  max-width: 272px;
+  min-height: 208px;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: center;
-  cursor: pointer;
+  position: relative;
 }
 
-.price {
+.priceItem {
   display: flex;
   align-items: center;
+}
+
+.name {
+  text-align: center;
+}
+
+.window {
+  height: calc(100vh - 350px);
+  overflow-y: auto;
 }
