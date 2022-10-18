@@ -40,7 +40,6 @@ function Item({ cardData, index }) {
 
   return(
     <div 
-      key={cardData.id}
       ref={dragDropRef}
       className={styles.item}>
         <DragIcon type="primary"/>

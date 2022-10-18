@@ -1,4 +1,4 @@
-import { BASEURL, checkResponse } from '../../utils/constants';
+import { BASE_URL, checkResponse } from '../../utils/constants';
 import { RESET_CONSTRUCTOR } from './constructor';
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -14,7 +14,7 @@ export function postOrder(ingredientData) {
     dispatch({
       type: GET_ORDER_REQUEST
     })
-    fetch(`${BASEURL}/orders`, {
+    fetch(`${BASE_URL}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

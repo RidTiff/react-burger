@@ -1,4 +1,4 @@
-import { BASEURL, checkResponse } from '../../utils/constants';
+import { BASE_URL, checkResponse } from '../../utils/constants';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -9,7 +9,7 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     })
-    fetch(`${BASEURL}/ingredients`)
+    fetch(`${BASE_URL}/ingredients`)
     .then(checkResponse)
     .then( res  => {
       if (res && res.success) {
