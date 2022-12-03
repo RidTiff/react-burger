@@ -5,16 +5,18 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Modal.module.css';
 
-export default function Modal({ children, onRequestClose, title }) {
+const modalRoot = document.getElementById('modal');
+
+export default function Modal({ children, closing, title }) {
   useEffect(() => {
     const keyDown = (evt) => {
-      if (evt.key === 'Escape') onRequestClose();
+      if (evt.key === 'Escape') closing();
     };
     document.addEventListener('keydown', keyDown);
     return () => {
       document.removeEventListener('keydown', keyDown);
     };
-  }, [onRequestClose]);
+  }, [closing]);
 
   return ReactDOM.createPortal(
     <>
@@ -23,18 +25,18 @@ export default function Modal({ children, onRequestClose, title }) {
           {title}
         </h2>
         <button className={styles.close} type='button'>
-          <CloseIcon type='primary' onClick={onRequestClose} />
+          <CloseIcon type='primary' onClick={closing} />
         </button>
         {children}
       </div>
-      <ModalOverlay onClick={onRequestClose} />
+      <ModalOverlay onClick={closing} />
     </>,
-    document.querySelector('#modal')
+    modalRoot
   );
 }
 
 Modal.propTypes = {
-  onRequestClose: PropTypes.func.isRequired,
+  closing: PropTypes.func.isRequired,
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
 };
