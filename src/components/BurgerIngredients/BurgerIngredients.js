@@ -1,119 +1,153 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {Tab, Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-
-
-import ingredientPropType from '../../utils/prop-types.js';
 import styles from './BurgerIngredients.module.css';
+import { cardPropTypes } from '../../utils/prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { CLOSE_MODAL } from '../../services/actions/currentIngredient';
+import { getCurrentIngredient } from '../../services/actions/currentIngredient';
+import { useDrag } from 'react-dnd';
 
-export default function BurgerIngredients(ingredients) {
-  const data = ingredients.ingredients
-  const [current, setCurrent] = useState('buns');
-  const [ingredientsDetails, setIngredientsDetails] = useState(false);
-  const [currentIngredient, setCurrentIngredient] = useState({});
 
-  const handleIngredientClick = (item) => {
-    setCurrentIngredient(item);
-    setIngredientsDetails(true);
+function Card({ cardData, count }) {
+  const { image, price, name, _id: id } = cardData;
+  
+  const [, dragRef] = useDrag({
+    type: 'ingredient',
+    item: cardData,
+  });
+
+  const [modalActive, setModalActive] = useState(false);
+  const dispatch = useDispatch();
+
+  const openModal = () => {
+    setModalActive(true);
+    dispatch(getCurrentIngredient(cardData))    
   };
 
-  const closePopup = () => {
-    setIngredientsDetails(false);
+  const closeModal = () => {
+    setModalActive(false);
+    dispatch({
+      type: CLOSE_MODAL
+    }); 
   };
 
-  return (
+  const modalIngredients = (
+    <Modal title='Детали ингредиента' onRequestClose={closeModal}>
+      <IngredientDetails/>
+    </Modal >
+  );
+
+  return(
     <>
-      <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 ml-5`}>
-        Соберите бургер
-      </h1>
-
-      <section className={`${styles.section} pl-5`}>
-        <div className={`${styles.tabs} mb-10`}>
-          <Tab value='buns' active={current === 'buns'} onClick={setCurrent}>
-            Булки
-          </Tab>
-          <Tab value='sauces' active={current === 'sauces'} onClick={setCurrent}>
-            Соусы
-          </Tab>
-          <Tab value='stuffing' active={current === 'stuffing'} onClick={setCurrent}>
-            Начинки
-          </Tab>
+      <article className={styles.card} 
+        onClick={openModal}
+        ref={dragRef}
+      >
+        {(count > 0) && (<Counter count={count} size="default" />)}
+        <img src={image} alt={name} className='ml-4 mr-4 mb-1'/>
+        <div className={`${styles.priceItem} mt-1 mb-1`}>
+          <span className='text text_type_digits-default mr-1'>{price}</span>
+          <CurrencyIcon type='primary' />
         </div>
-
-        <div className={styles.ingredients}>
-          <h2 className='text text_type_main-medium'>Булки</h2>
-          <div className={`${styles.ingredient} mt-6`}>
-            {data
-              .filter((item) => item.type === 'bun')
-              .map((item) => (
-                <div className={`${styles.card} mr-6 mb-6`} key={item._id} onClick={() => handleIngredientClick(item)}>
-                  <Counter count={1} size='default'/>
-                  <img className='image' src={item.image} alt='buns'/>
-                  <div className={`${styles.price} text text_type_digits-default pt-1 pb-1 `}>
-                    20
-                    <span className='ml-2'>
-                      <CurrencyIcon type='primary'/>
-                    </span>
-                  </div>
-                  <h3 className={`${styles.cardName} text text_type_main-default`}>
-                    {item.name}
-                  </h3>
-                </div>
-              ))}
-          </div>
-
-          <h2 className='text text_type_main-medium mt-10'>Соусы</h2>
-          <div className={`${styles.ingredient} mt-6`}>
-            {data
-              .filter((item) => item.type === 'sauce')
-              .map((item) => (
-                <div className={`${styles.card} mr-6 mb-6`} key={item._id} onClick={() => handleIngredientClick(item)}>
-                  <Counter count={1} size='default'/>
-                  <img className='image' src={item.image} alt='sauce'/>
-                  <div className={`${styles.price} text text_type_digits-default pt-1 pb-1 `}>
-                    20
-                    <span className='ml-2'>
-                      <CurrencyIcon type='primary'/>
-                    </span>
-                  </div>
-                  <h3 className={`${styles.cardName} text text_type_main-default`}>
-                    {item.name}
-                  </h3>
-                </div>
-              ))}
-          </div>
-          <h2 className='text text_type_main-medium mt-10'>Начинки</h2>
-          <div className={`${styles.ingredient} mt-6`}>
-            {data
-              .filter((item) => item.type === 'main')
-              .map((item) => (
-                <div className={`${styles.card} mr-6 mb-6`} key={item._id} onClick={() => handleIngredientClick(item)}>
-                  <Counter count={1} size='default'/>
-                  <img className='image' src={item.image} alt='main'/>
-                  <div className={`${styles.price} text text_type_digits-default pt-1 pb-1 `}>
-                    20
-                    <span className='ml-2'>
-                      <CurrencyIcon type='primary'/>
-                    </span>
-                  </div>
-                  <h3 className={`${styles.cardName} text text_type_main-default`}>
-                    {item.name}
-                  </h3>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
-      {ingredientsDetails && (
-        <Modal title='Детали ингредиента' onRequestClose={closePopup} keyDown={closePopup}>
-          <IngredientDetails item={currentIngredient} />
-        </Modal>
-      )}
+        <span className={styles.name}>{name}</span>
+      </article>
+      {modalActive && modalIngredients}
     </>
   );
-}
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
+
+Card.propTypes = {
+  cardData: cardPropTypes.isRequired,
+  count: PropTypes.number,
+};
+
+
+function MenuList({ type }) {
+
+  const { items, bun } = useSelector(store => store.items);
+
+  const counter = useMemo(() => {
+    const counts = {};
+
+    items.forEach((item) => {
+      if (!counts[item._id]) {
+        counts[item._id] = 0;
+      }
+      counts[item._id]++;
+    });
+      if (bun) {
+        counts[bun._id] = 2;
+      }
+      return counts;
+  }, [items, bun]);
+
+  const { ingredients } = useSelector(store => store.ingredients);
+  const typeData = ingredients.filter(item => item.type === type);
+
+  return(
+    <div className={`${styles.menuItems}`}>
+      {typeData.map(item => (
+        <Card key={item._id} cardData={item} count={counter[item._id]}/>
+      ))}
+    </div>
+  );
+}
+
+MenuList.propTypes = {
+  type: PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
+};
+
+export default function BurgerIngredients() {
+  const [current, setCurrent] = useState('Булки')
+
+  const setTabScroll = (evt) => {
+    const scrollTop = evt.target.scrollTop;
+   
+    if (scrollTop <= 250) {
+        setCurrent('Булки');
+    }
+    else if (scrollTop > 250 && scrollTop <= 750) {
+        setCurrent('Соусы');
+    }
+    else {
+        setCurrent('Начинки');
+    }
+  }
+
+  return(
+    <section className={styles.main}>
+      <h1 className='mt-10 mb-5 text text_type_main-large'>Соберите бургер</h1>
+      
+      <div className={styles.tab}>
+        <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
+          Булки
+        </Tab>
+        <Tab value="Соусы" active={current === 'Соусы'} onClick={setCurrent}>
+          Соусы
+        </Tab>
+        <Tab value="Начинки" active={current === 'Начинки'} onClick={setCurrent}>
+          Начинки
+        </Tab>
+      </div>
+      <div className={`${styles.window} custom-scroll`} onScroll={setTabScroll}>
+        <ul className={styles.menu}>
+          <li>
+            <h2 className='text text_type_main-medium mt-10 mb-6'>Булки</h2>
+            <MenuList type='bun' />
+          </li>
+          <li>
+            <h2 className='text text_type_main-medium mt-10 mb-6'>Соусы</h2>
+            <MenuList type='sauce' />
+          </li>
+          <li>
+            <h2 className='text text_type_main-medium mt-10 mb-6'>Начинки</h2>
+            <MenuList type='main' />
+          </li>
+        </ul>
+      </div>
+    </section>
+  );
+}

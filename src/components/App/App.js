@@ -1,36 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import './App.module.css';
-
-import Main from '../Main/Main';
+import React, { useEffect } from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-
-import { api, getResponseData } from '../../utils/api.js';
+import styles from './App.module.css';
+import { useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/actions/ingredients';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function App() {
-  const [ingredients, setIngredients] = useState([]);
-  
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getIngredients = () => {
-      fetch(`${api.baseUrl}/ingredients`, {headers: api.headers,})
-        .then(getResponseData)
-        .then((res) => setIngredients(res.data))
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getIngredients();
-  }, []);
+    dispatch(getIngredients());
+    },
+    [dispatch]
+  ); 
 
-  return (
-    <>
+  return(
+    <div className={styles.app}>
       <AppHeader />
-      <Main>
-        <BurgerIngredients ingredients = {ingredients}/>
-        <BurgerConstructor ingredients={ingredients}/>
-      </Main>
-    </>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <BurgerIngredients />
+          <BurgerConstructor /> 
+        </main>
+      </DndProvider>
+    </div>
   );
 }

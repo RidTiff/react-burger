@@ -1,7 +1,5 @@
-import { ProfileIcon, BurgerIcon, ListIcon, Logo, Typography } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ProfileIcon, BurgerIcon, ListIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { isPropertySignature } from 'typescript';
 import styles from './AppHeader.module.css';
 import PointHeader from '../PointHeader/PointHeader';
 

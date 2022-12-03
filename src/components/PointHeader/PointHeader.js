@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { isPropertySignature } from 'typescript';
 import styles from './PointHeader.module.css';
+import PropTypes from 'prop-types';
 
 export default function PointHeader(props) {
     return (
-        <a href='#' className={`${styles.point} p-5 ${props.className}`}>
+        <a href='#' className={`${styles.point} p-5`}>
             {props.children}
             <p className={`ml-2 text text_type_main-default`}>
                 {props.text}
@@ -13,3 +12,8 @@ export default function PointHeader(props) {
         </a>
     )
 }
+
+PointHeader.propTypes = {
+  text: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired
+};
