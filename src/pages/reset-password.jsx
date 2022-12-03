@@ -12,8 +12,6 @@ export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const { form, resetPasswordSuccess } = useSelector(store => store.resetPassword);
   const { forgotPasswordSuccess } = useSelector(store => store.forgotPassword);
-  const { isAuth } = useSelector(store => store.user);
-  const { state } = useLocation();
 
   useEffect(() => {
     form.password = '';
@@ -46,14 +44,6 @@ export const ResetPasswordPage = () => {
         to={{ pathname: '/forgot-password' }} 
       />
     );
-  };
-
-  if (isAuth) {
-    return (
-      <Redirect 
-        to={ state?.from || '/' } 
-      />
-    )
   };
 
   return (

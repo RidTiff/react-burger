@@ -12,8 +12,7 @@ export const RegisterPage = () => {
 
   const dispatch = useDispatch();
 
-  const { form, isAuth } = useSelector(store => store.user);
-  const { state } = useLocation();
+  const { form } = useSelector(store => store.user);
 
   useEffect(() => {
     form.name = '';
@@ -32,14 +31,6 @@ export const RegisterPage = () => {
   const onSubmitForm = (evt) => {
     evt.preventDefault();
     dispatch(register(form))
-  } 
-
-  if (isAuth) {
-    return (
-      <Redirect
-        to={ state?.from || '/' }
-      />
-    );
   }
 
   return (

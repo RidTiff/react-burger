@@ -5,7 +5,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { getUser } from '../../services/actions/auth';
 import { Loader } from '../Loader/Loader';
 
-export function ProtectedRoute({ children, ...rest }) {
+export function ProtectedRoute({ children, onlyAuth, ...rest }) {
 
   const { isAuth } = useSelector(store => store.user);
 
@@ -27,14 +27,20 @@ export function ProtectedRoute({ children, ...rest }) {
   return (
     <Route {...rest} render={({ location }) => 
       (isAuth) ? ( 
-        children
+        (onlyAuth)?(children):(
+          <Redirect 
+            to={ {pathname: '/'} } 
+          />
+        )
       ) : (
-      <Redirect
-        to={{
-            pathname: '/login',
-            state: { from: location }  
-          }}
-        />
+        (!onlyAuth)?(children):(
+          <Redirect
+            to={{
+                pathname: '/login',
+                state: { from: location }  
+              }}
+          />
+        )
       )
     }/>
   )

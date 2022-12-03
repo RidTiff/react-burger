@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../services/actions/wsActions'
 import { logout } from '../services/actions/auth';
@@ -11,9 +11,6 @@ import styles from './style.module.css';
 
 
 export const ProfileOrdersPage = () => {
-
-  const { isAuth } = useSelector(store => store.user);
-  const user = useSelector((store) => store.user.form);
 
   const dispatch = useDispatch();
 
@@ -26,14 +23,7 @@ export const ProfileOrdersPage = () => {
       return () => {
         dispatch({ type: WS_CONNECTION_CLOSED });
       }
-  }, []);
-
-  
-  if (!isAuth) {
-    return (
-      <Redirect to={{ pathname: '/login' }} />
-    );
-  }  
+  }, []); 
 
   const handleLogout = () =>
     dispatch(logout());

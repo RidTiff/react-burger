@@ -30,14 +30,6 @@ export const LoginPage = () => {
     },
     [form, dispatch] 
   );
-    
-  if (isAuth) {
-    return (
-      <Redirect
-        to={ state?.from || '/' }
-      />
-    );
-  }
 
   if (getStorageItem('refreshToken')) {
     return <Redirect to={state?.from || "/"} />;

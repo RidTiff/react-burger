@@ -11,8 +11,6 @@ import styles from './style.module.css';
 export const ForgotPasswordPage = () => {
 
   const dispatch = useDispatch();
-  const { state } = useLocation();
-  const { isAuth } = useSelector(store => store.user);
   const { form, forgotPasswordSuccess } = useSelector(store => store.forgotPassword);
 
   useEffect(() => {
@@ -38,14 +36,6 @@ export const ForgotPasswordPage = () => {
       />
     );
   }
-
-  if (isAuth) {
-    return (
-      <Redirect 
-        to={ state?.from || '/' } 
-      />
-    )
-  };
  
   return (
     <main className={styles.container}>

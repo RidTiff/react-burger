@@ -64,37 +64,37 @@ export default function App() {
           <HomePage />
         </Route>
 
-        <Route path='/login' exact={true}>
+        <ProtectedRoute path='/login' exact={true} onlyAuth={false}>
           <LoginPage />
-        </Route>
+        </ProtectedRoute>
 
-        <Route path='/register' exact={true}>
+        <ProtectedRoute path='/register' exact={true} onlyAuth={false}>
           <RegisterPage />
-        </Route>
+        </ProtectedRoute>
 
-        <ProtectedRoute path='/profile' exact={true}>
+        <ProtectedRoute path='/profile' exact={true} onlyAuth={true}>
           <ProfilePage />
         </ProtectedRoute>
 
-        <ProtectedRoute path='/profile/orders' exact={true}>
+        <ProtectedRoute path='/profile/orders' exact={true} onlyAuth={true}>
           <ProfileOrdersPage/>
         </ProtectedRoute>
 
-        <ProtectedRoute path='/profile/orders/:id' exact={true}>
+        <Route path='/profile/orders/:id' exact={true}>
           <OrderPage />
-        </ProtectedRoute>
+        </Route>
 
         <Route path='/ingredients/:id'>
           <IngredientPage />
         </Route>
 
-        <Route path='/forgot-password' exact={true}>
+        <ProtectedRoute path='/forgot-password' exact={true} onlyAuth={false}>
           <ForgotPasswordPage />
-        </Route>
+        </ProtectedRoute>
 
-        <Route path='/reset-password' exact={true}>
+        <ProtectedRoute path='/reset-password' exact={true} onlyAuth={false}>
           <ResetPasswordPage />
-        </Route>
+        </ProtectedRoute>
 
         <Route path='/feed' exact={true}>
           <FeedPage />
