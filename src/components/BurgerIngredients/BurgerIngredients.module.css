@@ -27,11 +27,15 @@
   list-style: none;
   max-width: 272px;
   min-height: 208px;
+  position: relative;
+}
+
+.link {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
+  text-decoration: none;
+  color: #F2F2F3;
 }
 
 .priceItem {

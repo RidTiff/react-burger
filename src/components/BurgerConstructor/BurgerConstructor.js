@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { postOrder, RESET_ORDER } from '../../services/actions/order';
 import { addToConstructor, deleteIngredient, sortIngredient } from '../../services/actions/constructor';
 import { useDrag, useDrop } from 'react-dnd';
+import { Redirect, useHistory } from 'react-router-dom';
 import { Loader } from '../Loader/Loader';
 
 
@@ -119,17 +120,23 @@ function Section() {
 
 function OrderTotal () {
 
-  const ingredients = useSelector(store => store.ingredients.ingredients);
   const { items, bun } = useSelector(store => store.items);
   const { order, orderRequest } = useSelector(store => store.order);
+  const { isAuth } = useSelector(store => store.user);
+  const orderItemsId = [bun, bun, ...items].map(el => el._id);
 
   const [modalActive, setModalActive] = useState(false);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const openModal = () => {
-    setModalActive(true);
-    dispatch(postOrder(ingredients));
+    if (isAuth) {
+      setModalActive(true);
+      dispatch(postOrder(orderItemsId)); 
+    } else {
+      <Redirect to={{ pathname: '/login' }} />
+    }
   };
 
   const closeModal = () => {
@@ -141,11 +148,19 @@ function OrderTotal () {
   };
   
   const modalOrder = (
-    <Modal onRequestClose={closeModal}>
+    <Modal closing={closeModal}>
        
       <OrderDetails  />
     </Modal >
   );
+
+  const handlerOrder = () => {
+    if (isAuth) {
+      openModal()
+    } else {
+      history.replace({ pathname: 'login' })
+    }
+  }
 
   const total = useMemo(() => {
     const bunPrice = bun ? bun.price*2 : 0;
@@ -163,7 +178,7 @@ function OrderTotal () {
           <span className="text text_type_digits-medium mr-4">{total}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={openModal}
+        <Button type="primary" size="large" onClick={ handlerOrder}
             disabled={(bun && items.length) ? false : true}> 
           Оформить заказ
         </Button>

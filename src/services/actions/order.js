@@ -1,4 +1,4 @@
-import { BASE_URL, checkResponse } from '../../utils/constants';
+import { BASE_URL, checkResponse, getCookie } from '../../utils/constants';
 import { RESET_CONSTRUCTOR } from './constructor';
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -6,9 +6,9 @@ export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 export const RESET_ORDER = 'RESET_ORDER';
 
-export function postOrder(ingredientData) {
+// ActionsCreator
 
-  const ingredientsId = ingredientData.map(el => el._id);
+export const postOrder = (Ids) => {
 
   return function(dispatch) {
     dispatch({
@@ -17,14 +17,15 @@ export function postOrder(ingredientData) {
     fetch(`${BASE_URL}/orders`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getCookie('token')
       },
       body: JSON.stringify({
-        ingredients: ingredientsId
+        ingredients: Ids
       })
     })
     .then(checkResponse)
-    .then(res  => {
+    .then(res => {
       if (res && res.success) {
         dispatch({
           type: GET_ORDER_SUCCESS,
@@ -39,10 +40,10 @@ export function postOrder(ingredientData) {
         })
       }
     })
-    .catch( err => {
+    .catch(err => {
+      console.log(err);
       dispatch({
-          type: GET_ORDER_FAILED,
-          payload: err
+        type: GET_ORDER_FAILED
       })
     })
   }
